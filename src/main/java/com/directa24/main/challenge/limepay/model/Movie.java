@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Movie {
+
     @JsonProperty("Title")
     private String title;
 

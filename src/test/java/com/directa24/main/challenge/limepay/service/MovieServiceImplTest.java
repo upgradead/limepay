@@ -31,7 +31,7 @@ public class MovieServiceImplTest {
         map.put("A", 6);
 
         movieService.setDirectors(map);
-        List<String> output = movieService.getOrderedListBasedOnThreshold(4);
+        List<String> output = movieService.getDirectorsListBasedOnThreshold(4);
         Assert.assertEquals(3, output.size());
         Assert.assertEquals("A", output.get(0));
         Assert.assertEquals("B", output.get(1));
@@ -46,7 +46,7 @@ public class MovieServiceImplTest {
         map.put("A", 6);
 
         movieService.setDirectors(map);
-        List<String> output = movieService.getOrderedListBasedOnThreshold(40);
+        List<String> output = movieService.getDirectorsListBasedOnThreshold(40);
         Assert.assertEquals(0, output.size());
     }
 
@@ -58,7 +58,7 @@ public class MovieServiceImplTest {
         map.put("A", 6);
 
         movieService.setDirectors(map);
-        List<String> output = movieService.getOrderedListBasedOnThreshold(5);
+        List<String> output = movieService.getDirectorsListBasedOnThreshold(5);
         Assert.assertEquals(1, output.size());
         Assert.assertEquals("A", output.get(0));
     }
@@ -69,7 +69,7 @@ public class MovieServiceImplTest {
         map.put("B", 4);
 
         movieService.setDirectors(map);
-        List<String> output = movieService.getOrderedListBasedOnThreshold(4);
+        List<String> output = movieService.getDirectorsListBasedOnThreshold(4);
         Assert.assertEquals(0, output.size());
     }
 }

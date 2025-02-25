@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class InvalidThresholdException extends RuntimeException {
+
     private String message;
 
     public InvalidThresholdException(final int threshold) {

@@ -18,9 +18,8 @@ public class MovieServiceImpl implements MovieService {
 
     private final EronFeignClient eronFeignClient;
 
-    //Should be replaced with redis caching
     private TreeMap<String, Integer> directors = new TreeMap<>();
-    private static int totalPages = 0;
+    private static int totalMovies = 0;
 
     @Autowired
     public MovieServiceImpl(final EronFeignClient eronFeignClient) {
@@ -30,17 +29,18 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<String> getDirectors(final int threshold) {
         log.info("Getting directors with threshold {}", threshold);
+
         if (threshold < 0) {
             throw new InvalidThresholdException(threshold);
         }
 
         MovieDetails details = eronFeignClient.getMovies(0);
 
-        if (totalPages == 0 && totalPages != details.getTotalPages()) {
+        if (totalMovies == 0 && totalMovies != details.getTotal()) {
             directors.clear();
-            totalPages = details.getTotalPages();
+            totalMovies = details.getTotal();
 
-            for (int page = 1; page <= totalPages; page++) {
+            for (int page = 1; page <= details.getTotalPages(); page++) {
                 MovieDetails movieDetails = eronFeignClient.getMovies(page);
                 List<Movie> data = movieDetails.getData();
 
@@ -54,13 +54,13 @@ public class MovieServiceImpl implements MovieService {
             }
         }
 
-        List<String> filteredDirectors = getOrderedListBasedOnThreshold(threshold);
+        List<String> filteredDirectors = getDirectorsListBasedOnThreshold(threshold);
 
         log.info("Getting directors done");
         return filteredDirectors;
     }
 
-    protected List<String> getOrderedListBasedOnThreshold(int threshold) {
+    protected List<String> getDirectorsListBasedOnThreshold(int threshold) {
         return directors.entrySet().stream()
                 .filter(a -> a.getValue() > threshold)
                 .map(Map.Entry::getKey)

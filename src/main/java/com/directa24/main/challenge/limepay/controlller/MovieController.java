@@ -25,15 +25,17 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @Operation(summary = "Returns a list of threshold depending on threshold")
+    @Operation(summary = "Returns a list of directors depending on threshold")
     @GetMapping(value = "/directors",
             produces = {MediaType.APPLICATION_JSON_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE})
     public DirectorsDto getDirectors(@RequestParam("threshold") @Min(0) int threshold) {
-        log.info("Retrieving directors with threshold {}", threshold);
-        List<String> directors = movieService.getDirectors(threshold);
-        log.info("Retrieving directors completed");
 
+        log.info("Retrieving directors with threshold {}", threshold);
+
+        List<String> directors = movieService.getDirectors(threshold);
+
+        log.info("Retrieving directors completed");
         return new DirectorsDto(directors);
     }
 }
